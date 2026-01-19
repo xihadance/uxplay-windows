@@ -60,7 +60,8 @@ jobs:
       - name: compiling uxplay (finally)
         shell: msys2 {0}
         run: |
-          git clone https://github.com/FDH2/UxPlay && cd UxPlay
+          git clone https://github.com/xihadance/UxPlay && cd UxPlay
+          git checkout fw
           mkdir build && cd build
           cmake ..
           ninja
