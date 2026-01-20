@@ -61,7 +61,7 @@ jobs:
         shell: msys2 {0}
         run: |
           git clone https://github.com/xihadance/UxPlay && cd UxPlay
-          git checkout fw
+          git checkout keepalive
           mkdir build && cd build
           cmake ..
           ninja
