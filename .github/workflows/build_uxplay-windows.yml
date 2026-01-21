@@ -143,12 +143,18 @@ jobs:
         with:
           name: uxplay-windows
           path: Output\uxplay-windows.exe
+      - name: Set Release Version
+        id: version
+        run: |
+          DATE=$(date +'%y.%m%d')
+          echo "RELEASE_TAG=v${DATE}.v${GITHUB_RUN_NUMBER}" >> $GITHUB_ENV
+          echo "RELEASE_NAME=UxPlay Windows v${DATE}.v${GITHUB_RUN_NUMBER}" >> $GITHUB_ENV
       - name: Create GitHub Release
         if: github.event_name == 'workflow_dispatch'
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: uxplay-windows-${{ github.run_number }}
-          name: UxPlay Windows (manual build #${{ github.run_number }})
+          tag_name: uxplay-windows-${{ env.RELEASE_TAG }}
+          name: UxPlay Windows ${{ env.RELEASE_NAME }}
           files: Output/uxplay-windows.exe
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
