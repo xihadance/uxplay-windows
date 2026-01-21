@@ -145,16 +145,19 @@ jobs:
           path: Output\uxplay-windows.exe
       - name: Set Release Version
         id: version
+        shell: pwsh
         run: |
-          DATE=$(date +'%y.%m%d')
-          echo "RELEASE_TAG=v${DATE}.v${GITHUB_RUN_NUMBER}" >> $GITHUB_ENV
-          echo "RELEASE_NAME=UxPlay Windows v${DATE}.v${GITHUB_RUN_NUMBER}" >> $GITHUB_ENV
+          $date = Get-Date -Format "yy.MMdd"
+          $env:RELEASE_TAG = "v${date}.v$env:GITHUB_RUN_NUMBER"
+          $env:RELEASE_NAME = "UxPlay Windows v${date}.v$env:GITHUB_RUN_NUMBER"
+          Write-Host "Release tag: $env:RELEASE_TAG"
+          Write-Host "Release name: $env:RELEASE_NAME"
       - name: Create GitHub Release
         if: github.event_name == 'workflow_dispatch'
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: uxplay-windows-${{ env.RELEASE_TAG }}
-          name: UxPlay Windows ${{ env.RELEASE_NAME }}
+          tag_name: ${{ env.RELEASE_TAG }}
+          name: ${{ env.RELEASE_NAME }}
           files: Output/uxplay-windows.exe
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
